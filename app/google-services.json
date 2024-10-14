@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "617032050722",
+    "firebase_url": "https://cdmm-project-default-rtdb.firebaseio.com",
+    "project_id": "cdmm-project",
+    "storage_bucket": "cdmm-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617032050722:android:2ea178108ea1b87e25027b",
+        "android_client_info": {
+          "package_name": "com.itech.cdmm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0Wzgw1rNyy2oLneu8A2tDkAQtY7wt-ig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
