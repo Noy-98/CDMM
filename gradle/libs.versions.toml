@@ -13,6 +13,9 @@ googleGmsGoogleServices = "4.4.2"
 firebaseStorage = "21.0.1"
 firebaseAuth = "23.0.0"
 firebaseDatabase = "21.0.0"
+lottie = "6.5.0"
+circleimageview = "3.1.0"
+picasso = "2.71828"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -26,6 +29,9 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
+circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
+picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
