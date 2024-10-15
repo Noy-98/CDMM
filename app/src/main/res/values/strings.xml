@@ -17,4 +17,6 @@
     <string name="section">Section*</string>
     <string name="program_course">Program/Course*</string>
     <string name="confirm_password">Confirm Password*</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

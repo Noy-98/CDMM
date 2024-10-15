@@ -16,6 +16,7 @@ firebaseDatabase = "21.0.0"
 lottie = "6.5.0"
 circleimageview = "3.1.0"
 picasso = "2.71828"
+glide = "4.16.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,6 +33,7 @@ firebase-database = { group = "com.google.firebase", name = "firebase-database",
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
