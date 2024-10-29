@@ -57,4 +57,6 @@ dependencies {
     implementation(libs.circleimageview)
     implementation(libs.picasso)
     implementation(libs.glide)
+    implementation(libs.core)
+    implementation(libs.zxing.android.embedded)
 }
