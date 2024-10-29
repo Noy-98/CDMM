@@ -7,6 +7,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.itech.cdmm.dashboard.Cart
 import com.itech.cdmm.dashboard.Home
 import com.itech.cdmm.dashboard.Logout
+import com.itech.cdmm.dashboard.Notification
 import com.itech.cdmm.dashboard.Profile
 import com.itech.cdmm.databinding.ActivityMainHomeDashboardBinding
 
@@ -35,6 +36,10 @@ class MainHomeDashboard : AppCompatActivity() {
                 }
                 R.id.cart -> {
                     loadFragment(Cart())
+                    true
+                }
+                R.id.notification -> {
+                    loadFragment(Notification())
                     true
                 }
                 R.id.profile -> {

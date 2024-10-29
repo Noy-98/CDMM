@@ -7,12 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class ProductsAdapter(private val context: Context, private var productList: List<ProductsDBStructure>) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
+
+    private val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
+    private val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val product_image: ImageView = itemView.findViewById(R.id.productImage)
@@ -42,12 +49,34 @@ class ProductsAdapter(private val context: Context, private var productList: Lis
 
         // Handle click on view details button
         holder.addtoCartBttn.setOnClickListener {
-            // Start a new activity to display patient details
-          /*  val intent = Intent(context, ViewDetails::class.java)
-            intent.putExtra("p_id", products.p_id)
-            intent.putExtra("productsData", products)
-            context.startActivity(intent) */
+            addToCart(products)
         }
+    }
+
+    private fun addToCart(products: ProductsDBStructure) {
+        // Generate a unique cart ID
+        val cartId = databaseReference.child("StudentCartTbl").child(currentUserId).push().key ?: return
+
+        // Create CartDBStructure instance with product data
+        val cartItem = CartDBStructure(
+            cart_id = cartId,
+            product_name = products.product_name ?: "",
+            product_price = products.product_price ?: "",
+            product_size = products.product_size ?: "",
+            product_description = products.product_description ?: "",
+            product_quantity = "1",
+            product_total_price = products.product_price ?: "",
+            product_image = products.product_image
+        )
+
+        // Add to Firebase under StudentCartTbl -> currentUserId -> cartId
+        databaseReference.child("StudentCartTbl").child(currentUserId).child(cartId).setValue(cartItem)
+            .addOnSuccessListener {
+                Toast.makeText(context, "${products.product_name} added to cart", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, "Failed to add to cart", Toast.LENGTH_SHORT).show()
+            }
     }
 
     override fun getItemCount(): Int {
