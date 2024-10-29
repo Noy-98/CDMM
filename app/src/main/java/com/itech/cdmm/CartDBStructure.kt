@@ -8,7 +8,7 @@ data class CartDBStructure(
     val product_price: String = "",
     val product_size: String = "",
     val product_description: String = "",
-    val product_quantity: String = "1",
-    val product_total_price: String = "",
+    var product_quantity: String = "1",
+    var product_total_price: String = "",
     var product_image: String? = null
 ): Serializable

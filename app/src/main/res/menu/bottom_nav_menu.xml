@@ -18,6 +18,11 @@
         android:title="Notification"
         android:fontFamily="@font/poppins_bold"/>
     <item
+        android:id="@+id/barcode"
+        android:icon="@drawable/barcode_icon"
+        android:title="Barcode"
+        android:fontFamily="@font/poppins_bold"/>
+    <item
         android:id="@+id/profile"
         android:icon="@drawable/baseline_person_24"
         android:title="Profile"
