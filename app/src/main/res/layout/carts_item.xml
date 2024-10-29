@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/productImage"
             android:layout_width="150dp"
-            android:layout_height="115dp"
+            android:layout_height="150dp"
             android:scaleType="centerCrop"
             android:src="@drawable/cart_icon"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,10 +39,10 @@
             android:textColor="@color/black"/>
 
         <LinearLayout
+            android:id="@+id/lin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/productName"
-            app:layout_constraintBottom_toTopOf="@+id/deleteBttn"
             app:layout_constraintStart_toEndOf="@+id/productImage"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="10dp"
@@ -93,6 +93,38 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/lin2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/lin"
+            app:layout_constraintStart_toEndOf="@+id/productImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/decrease2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_arrow_left_24" />
+
+            <TextView
+                android:id="@+id/productSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Product size"
+                android:fontFamily="@font/poppins_light"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:id="@+id/increase2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_arrow_right_24" />
+        </LinearLayout>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/deleteBttn"
             android:layout_width="100dp"
@@ -104,6 +136,7 @@
             android:layout_marginEnd="10dp"
             android:textColor="@color/white"
             android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@+id/lin2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/productImage"
             app:layout_constraintBottom_toBottomOf="parent"/>

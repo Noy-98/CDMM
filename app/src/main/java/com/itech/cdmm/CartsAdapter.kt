@@ -18,6 +18,7 @@ class CartsAdapter(private val context: Context, private var cartList: MutableLi
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database: DatabaseReference = FirebaseDatabase.getInstance().getReference("StudentCartTbl")
+    private val sizes = listOf("small", "medium", "large", "extra large", "2 extra large")
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val product_image: ImageView = itemView.findViewById(R.id.productImage)
@@ -26,6 +27,9 @@ class CartsAdapter(private val context: Context, private var cartList: MutableLi
         val productQuantity: TextView = itemView.findViewById(R.id.productQuantity)
         val increase: ImageView = itemView.findViewById(R.id.increase)
         val product_price: TextView = itemView.findViewById(R.id.productPrice)
+        val decrease2: ImageView = itemView.findViewById(R.id.decrease2)
+        val productSize: TextView = itemView.findViewById(R.id.productSize)
+        val increase2: ImageView = itemView.findViewById(R.id.increase2)
         val deleteBttn: AppCompatButton = itemView.findViewById(R.id.deleteBttn)
     }
 
@@ -48,6 +52,15 @@ class CartsAdapter(private val context: Context, private var cartList: MutableLi
         holder.product_name.text = cart.product_name
         holder.productQuantity.text = cart.product_quantity
         holder.product_price.text = cart.product_total_price
+        holder.productSize.text = cart.product_size
+
+        holder.decrease2.setOnClickListener {
+            updateProductSize(cart, holder, decrease = true)
+        }
+
+        holder.increase2.setOnClickListener {
+            updateProductSize(cart, holder, decrease = false)
+        }
 
         holder.decrease.setOnClickListener {
             val currentQuantity = cart.product_quantity.toInt()
@@ -64,6 +77,46 @@ class CartsAdapter(private val context: Context, private var cartList: MutableLi
 
         holder.deleteBttn.setOnClickListener {
             deleteProductFromFirebase(cart, position)
+        }
+    }
+
+    private fun updateProductSize(cart: CartDBStructure, holder: ViewHolder, decrease: Boolean) {
+        val currentSize = cart.product_size
+        val currentIndex = sizes.indexOf(currentSize)
+        val newIndex = if (decrease) {
+            (currentIndex - 1 + sizes.size) % sizes.size
+        } else {
+            (currentIndex + 1) % sizes.size
+        }
+        val newSize = sizes[newIndex]
+
+        // Update the product size in Firebase and locally
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            val productRef = database.child(userId).child(cart.cart_id)
+
+            // Calculate the new total price based on the new size and current quantity
+            val pricePerUnit = cart.product_price.toDouble()
+            val extraCharge = if (newSize == "extra large" || newSize == "2 extra large") 50 else 0
+            val newTotalPrice = (pricePerUnit * cart.product_quantity.toInt()) + extraCharge
+
+            val updates = mapOf(
+                "product_size" to newSize,
+                "product_total_price" to newTotalPrice.toString()
+            )
+
+            productRef.updateChildren(updates).addOnSuccessListener {
+                // Update the product locally in the list
+                cartList.find { it.cart_id == cart.cart_id }?.let {
+                    it.product_size = newSize
+                    it.product_total_price = newTotalPrice.toString()
+                }
+                holder.productSize.text = newSize // Update UI with new size
+                holder.product_price.text = newTotalPrice.toString() // Update UI with new price
+                notifyDataSetChanged() // Notify adapter of the update
+            }.addOnFailureListener {
+                // Optionally handle failure
+            }
         }
     }
 
@@ -91,13 +144,12 @@ class CartsAdapter(private val context: Context, private var cartList: MutableLi
     private fun updateProductQuantityAndPrice(cart: CartDBStructure, newQuantity: Int) {
         val userId = auth.currentUser?.uid
         if (userId != null) {
-            val productRef = database.child(userId)
-                .child(cart.cart_id)
+            val productRef = database.child(userId).child(cart.cart_id)
 
-            // Calculate the new total price based on the unit price
-            val pricePerUnit =
-                cart.product_price.toDouble()
-            val newTotalPrice = pricePerUnit * newQuantity // Calculate the new total price
+            // Base price calculation with an extra charge if size is "extra large" or "2 extra large"
+            val pricePerUnit = cart.product_price.toDouble()
+            val extraCharge = if (cart.product_size == "extra large" || cart.product_size == "2 extra large") 50 else 0
+            val newTotalPrice = (pricePerUnit * newQuantity) + extraCharge
 
             val updates = mapOf(
                 "product_quantity" to newQuantity.toString(),
@@ -109,13 +161,12 @@ class CartsAdapter(private val context: Context, private var cartList: MutableLi
                     // Update the product locally in the list
                     cartList.find { it.cart_id == cart.cart_id }?.let {
                         it.product_quantity = newQuantity.toString()
-                        it.product_total_price =
-                            newTotalPrice.toString() // Update total_price, not product_price
+                        it.product_total_price = newTotalPrice.toString() // Update total price
                     }
-                    notifyDataSetChanged() // Notify adapter of the update
+                    notifyDataSetChanged() // Refresh the adapter to show updates
                 }
                 .addOnFailureListener {
-                    // Optionally handle failure, like showing a message to the user
+                    // Optionally handle failure
                 }
         }
     }
