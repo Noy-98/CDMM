@@ -1,9 +1,11 @@
 package com.itech.cdmm.dashboard
 
+import android.content.ContentValues
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -31,7 +33,11 @@ import com.itech.cdmm.CartDBStructure
 import com.itech.cdmm.CartsAdapter
 import com.itech.cdmm.databinding.FragmentCartBinding
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 import java.util.UUID
+
 
 class Cart : Fragment() {
     private lateinit var binding: FragmentCartBinding
@@ -201,7 +207,42 @@ class Cart : Fragment() {
     }
 
     private fun downloadBarcodeImage(barcodeBitmap: Bitmap, userId: String) {
-        Toast.makeText(requireContext(), "Barcode downloaded", Toast.LENGTH_SHORT).show()
+        val filename = "Barcode_$userId.png"
+        var outputStream: OutputStream? = null
+
+        try {
+            // Check if the device has Android Q or later
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                // Save the file to MediaStore's Downloads
+                val contentValues = ContentValues().apply {
+                    put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
+                    put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
+                    put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+                }
+                val uri = requireContext().contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
+                if (uri != null) {
+                    outputStream = requireContext().contentResolver.openOutputStream(uri)
+                }
+            } else {
+                // For older versions, save to the Downloads directory
+                val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                val imageFile = File(downloadsDir, filename)
+                outputStream = FileOutputStream(imageFile)
+            }
+
+            // Compress and save the barcode image
+            if (outputStream != null) {
+                barcodeBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            }
+            outputStream?.flush()
+
+            Toast.makeText(requireContext(), "Barcode saved to Downloads", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(requireContext(), "Failed to save barcode", Toast.LENGTH_SHORT).show()
+        } finally {
+            outputStream?.close()
+        }
     }
 
     private fun loadCartsData() {
