@@ -59,4 +59,9 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.core)
     implementation(libs.zxing.android.embedded)
+
+    implementation("com.github.amitshekhariitbhu.Fast-Android-Networking:android-networking:1.0.4")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.paypal.android:paypal-web-payments:1.5.0")
 }

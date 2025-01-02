@@ -100,10 +100,10 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/productList"
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:listitem="@layout/products_item"/>
+                        android:orientation="horizontal"
+                        tools:listitem="@layout/products_item" />
                 </LinearLayout>
 
             </ScrollView>

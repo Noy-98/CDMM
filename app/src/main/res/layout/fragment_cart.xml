@@ -74,11 +74,12 @@
                     android:text="0"
                     android:textColor="#D31515" />
 
+
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/checkout"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:layout_marginStart="40dp"
+                    android:layout_marginStart="20dp"
                     android:backgroundTint="@color/dark_green"
                     android:text="Checkout"
                     android:textAllCaps="false"

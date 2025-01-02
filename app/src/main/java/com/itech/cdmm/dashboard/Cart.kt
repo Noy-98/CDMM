@@ -1,6 +1,7 @@
 package com.itech.cdmm.dashboard
 
 import android.content.ContentValues
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
@@ -31,6 +32,7 @@ import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
 import com.itech.cdmm.CartDBStructure
 import com.itech.cdmm.CartsAdapter
+import com.itech.cdmm.CheckOut
 import com.itech.cdmm.databinding.FragmentCartBinding
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -201,7 +203,14 @@ class Cart : Fragment() {
 
         // Set up dialog with buttons to download and close
         alertDialog.setView(dialogLayout)
-            .setPositiveButton("Download") { _, _ -> downloadBarcodeImage(barcodeBitmap, userId) }
+            .setPositiveButton("Checkout") { _, _ ->
+                downloadBarcodeImage(barcodeBitmap, userId)
+                // Navigate to CheckOut.kt
+                val intent = Intent(requireContext(), CheckOut::class.java).apply {
+                    putExtra("USER_ID", userId) // Pass user ID if needed in CheckOut activity
+                }
+                startActivity(intent)
+            }
             .setNegativeButton("Close") { dialog, _ -> dialog.dismiss() }
             .show()
     }
