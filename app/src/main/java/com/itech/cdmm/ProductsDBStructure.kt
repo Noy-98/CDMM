@@ -8,5 +8,6 @@ data class ProductsDBStructure(
     val product_price: String = "",
     val product_size: String = "",
     val product_description: String = "",
+    val product_stock: String = "",
     var product_image: String? = null
 ): Serializable

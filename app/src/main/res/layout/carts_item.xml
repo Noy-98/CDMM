@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/productImage"
             android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_height="180dp"
             android:scaleType="centerCrop"
             android:src="@drawable/cart_icon"
             app:layout_constraintStart_toStartOf="parent"
@@ -125,6 +125,36 @@
                 android:src="@drawable/baseline_arrow_right_24" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/lin3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/lin2"
+            app:layout_constraintStart_toEndOf="@+id/productImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Stock"
+                android:fontFamily="@font/poppins_medium"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/productStock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="0"
+                android:fontFamily="@font/poppins_medium"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/deleteBttn"
             android:layout_width="100dp"
@@ -134,9 +164,10 @@
             android:textAllCaps="false"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
             android:textColor="@color/white"
             android:textSize="12sp"
-            app:layout_constraintTop_toBottomOf="@+id/lin2"
+            app:layout_constraintTop_toBottomOf="@+id/lin3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/productImage"
             app:layout_constraintBottom_toBottomOf="parent"/>

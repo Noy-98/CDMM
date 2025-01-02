@@ -30,6 +30,7 @@ class CartsAdapter(private val context: Context, private var cartList: MutableLi
         val decrease2: ImageView = itemView.findViewById(R.id.decrease2)
         val productSize: TextView = itemView.findViewById(R.id.productSize)
         val increase2: ImageView = itemView.findViewById(R.id.increase2)
+        val product_stock: TextView = itemView.findViewById(R.id.productStock)
         val deleteBttn: AppCompatButton = itemView.findViewById(R.id.deleteBttn)
     }
 
@@ -53,6 +54,7 @@ class CartsAdapter(private val context: Context, private var cartList: MutableLi
         holder.productQuantity.text = cart.product_quantity
         holder.product_price.text = cart.product_total_price
         holder.productSize.text = cart.product_size
+        holder.product_stock.text = cart.product_stock
 
         holder.decrease2.setOnClickListener {
             updateProductSize(cart, holder, decrease = true)

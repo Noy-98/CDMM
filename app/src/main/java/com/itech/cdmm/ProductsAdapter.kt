@@ -25,6 +25,7 @@ class ProductsAdapter(private val context: Context, private var productList: Lis
         val product_image: ImageView = itemView.findViewById(R.id.productImage)
         val product_name: TextView = itemView.findViewById(R.id.productName)
         val product_price: TextView = itemView.findViewById(R.id.productPrice)
+        val product_stock: TextView = itemView.findViewById(R.id.productStock)
         val addtoCartBttn: AppCompatButton = itemView.findViewById(R.id.addtoCartBttn)
     }
 
@@ -46,6 +47,16 @@ class ProductsAdapter(private val context: Context, private var productList: Lis
 
         holder.product_name.text = products.product_name
         holder.product_price.text = products.product_price
+        holder.product_stock.text = products.product_stock
+
+        // Check product stock to show/hide the Add to Cart button
+        val stock = products.product_stock?.toIntOrNull() ?: 0 // Convert stock to integer
+        if (stock > 0) {
+            holder.addtoCartBttn.visibility = View.VISIBLE // Show button if stock > 0
+        } else {
+            holder.addtoCartBttn.visibility = View.GONE // Hide button if stock == 0
+        }
+
 
         // Handle click on view details button
         holder.addtoCartBttn.setOnClickListener {
@@ -63,6 +74,7 @@ class ProductsAdapter(private val context: Context, private var productList: Lis
             product_name = products.product_name ?: "",
             product_price = products.product_price ?: "",
             product_size = products.product_size ?: "",
+            product_stock = products.product_stock ?: "",
             product_description = products.product_description ?: "",
             product_quantity = "1",
             product_total_price = products.product_price ?: "",
